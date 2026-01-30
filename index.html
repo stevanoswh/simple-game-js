@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Neon Drift</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="wrap">
+    <div id="game">
+      <canvas id="c" width="960" height="600"></canvas>
+
+      <div class="hud">
+        <div class="card">
+          <div class="row">
+            <span class="label">Score</span><span class="val" id="score">0</span>
+            <span class="label">Time</span><span class="val" id="time">0.0</span>
+            <span class="label">Combo</span><span class="val" id="combo">x1.0</span>
+          </div>
+          <div class="row" style="margin-top:6px;">
+            <span class="pill"><span class="dot good"></span> Coins: <b id="coins">0</b></span>
+            <span class="pill"><span class="dot bad"></span> Danger: <b id="danger">1</b></span>
+            <span class="pill"><span class="dot"></span> Dash: <b id="dash">Ready</b></span>
+          </div>
+          <div class="row" style="margin-top:6px;">
+            <span class="pill"><span class="dot"></span> Best: <b id="best">0</b></span>
+            <span class="pill"><span class="dot"></span> Freeze: <b id="freeze">0.0</b>s</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row"><span class="label">Controls</span></div>
+          <div style="margin-top:6px; color: var(--muted); font-size: 13px; line-height:1.45;">
+            Move: <b>WASD</b>/<b>Arrows</b><br/>
+            Dash: <b>Shift</b> · Pause: <b>P</b> · Restart: <b>R</b>
+          </div>
+        </div>
+      </div>
+
+      <div id="joy">
+        <div class="base"></div>
+        <div class="stick"></div>
+      </div>
+
+      <div class="overlay show" id="overlay">
+        <div class="modal">
+          <h1>Neon Drift</h1>
+          <p>
+            Survive, collect <b style="color:var(--good)">coins</b>, avoid <b style="color:var(--bad)">enemies</b>.
+            Get powerups: <b>P</b>ulse, <b>S</b>hield, <b>B</b>oost, <b>F</b>reeze.
+          </p>
+          <div class="grid2">
+            <button class="primary" id="btnStart">Start</button>
+            <button id="btnHow">How it works</button>
+          </div>
+          <p id="how" style="display:none; margin-top:12px;">
+            <b>Combo:</b> coins quickly = higher multiplier.<br/>
+            <b>Powerups:</b> Pulse knocks enemies away, Shield blocks 1 hit, Boost speeds you up, Freeze stops enemies.
+          </p>
+        </div>
+      </div>
+
+      <div class="overlay" id="gameover">
+        <div class="modal">
+          <h1>Game Over</h1>
+          <p id="summary"></p>
+          <div class="grid2">
+            <button class="primary" id="btnRestart">Play again</button>
+            <button id="btnClose">Close</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
