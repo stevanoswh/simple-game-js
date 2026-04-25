@@ -132,6 +132,27 @@ export default function Wireframe({
     }
   };
 
+  const canvasContainerStyle =
+    mode === 'erase'
+      ? {
+          marginTop: '1rem',
+          display: 'inline-block',
+          border: '1px solid #ccc',
+          backgroundColor: '#ffffff',
+          backgroundImage:
+            'linear-gradient(45deg, #d1d5db 25%, transparent 25%), linear-gradient(-45deg, #d1d5db 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #d1d5db 75%), linear-gradient(-45deg, transparent 75%, #d1d5db 75%)',
+          backgroundSize: '20px 20px',
+          backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0',
+          lineHeight: 0,
+        }
+      : {
+          marginTop: '1rem',
+          display: 'inline-block',
+          border: '1px solid #ccc',
+          backgroundColor: '#ffffff',
+          lineHeight: 0,
+        };
+
   return (
     <div>
       {!isControlledUpload && (
@@ -154,14 +175,16 @@ export default function Wireframe({
           />
         </label>
       </div>
-      <canvas
-        ref={canvasRef}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={stopPainting}
-        onPointerLeave={stopPainting}
-        style={{ border: '1px solid #ccc', marginTop: '1rem', touchAction: 'none' }}
-      />
+      <div style={canvasContainerStyle}>
+        <canvas
+          ref={canvasRef}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={stopPainting}
+          onPointerLeave={stopPainting}
+          style={{ display: 'block', touchAction: 'none' }}
+        />
+      </div>
     </div>
   );
 }
