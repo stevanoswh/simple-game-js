@@ -1,0 +1,26 @@
+'use client';
+import Wireframe from '@/components/Wireframe';
+
+function getCanvasElement() {
+  const canvas = document.querySelector('canvas');
+  return canvas as HTMLCanvasElement | null;
+}
+
+export default function ErasePage() {
+  const handleDownload = () => {
+    const canvas = getCanvasElement();
+    if (!canvas) return;
+    const link = document.createElement('a');
+    link.download = 'erased-image.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+
+  return (
+    <main>
+      <h1>Pixel Eraser</h1>
+      <Wireframe />
+      <button onClick={handleDownload} style={{marginTop: '2rem', padding: '0.75rem 1.5rem', fontSize: '1rem', borderRadius: '8px', background: '#4e73df', color: 'white', border: 'none', cursor: 'pointer'}}>Download Image</button>
+    </main>
+  );
+}
