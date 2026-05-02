@@ -1,0 +1,90 @@
+'use client';
+import Wireframe from '@/components/Wireframe';
+import { useState } from 'react';
+
+export default function DrawPage() {
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState<string>('#000000');
+
+  const handleDownload = () => {
+    const canvas = document.querySelector('canvas');
+    if (!canvas) return;
+    const link = document.createElement('a');
+    link.download = 'drawn-image.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+
+  if (!file.type.match('image.*')) {
+    alert('Please select an image file');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    setUploadedImage(event.target?.result as string);
+  };
+  reader.onerror = () => {
+    alert('Error reading the file');
+  };
+  reader.readAsDataURL(file);
+};
+
+  // Color palette
+  const colors = [
+    '#000000', // Black
+    '#FF0000', // Red
+    '#00FF00', // Green
+    '#0000FF', // Blue
+    '#FFFF00', // Yellow
+    '#FF00FF', // Magenta
+    '#00FFFF', // Cyan
+    '#FFFFFF', // White
+  ];
+
+  return (
+    <main>
+      <h1>Virtual Drawing Tool</h1>
+      <input type="file" accept="image/*" onChange={handleImageUpload} />
+
+      {/* Color palette */}
+      <div style={{ margin: '1rem 0', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+        {colors.map((color) => (
+          <div
+            key={color}
+            onClick={() => setSelectedColor(color)}
+            style={{
+              width: '30px',
+              height: '30px',
+              backgroundColor: color,
+              border: selectedColor === color ? '2px solid #000' : '1px solid #ccc',
+              cursor: 'pointer',
+              borderRadius: '4px',
+            }}
+          />
+        ))}
+      </div>
+
+      <Wireframe uploadedImage={uploadedImage} selectedColor={selectedColor} mode="draw" />
+      <button
+        onClick={handleDownload}
+        style={{
+          marginTop: '2rem',
+          padding: '0.75rem 1.5rem',
+          fontSize: '1rem',
+          borderRadius: '8px',
+          background: '#4e73df',
+          color: 'white',
+          border: 'none',
+          cursor: 'pointer',
+        }}
+      >
+        Download Image
+      </button>
+    </main>
+  );
+}
