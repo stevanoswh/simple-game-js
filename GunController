@@ -1,0 +1,48 @@
+using UnityEngine;
+
+public class GunController : MonoBehaviour
+{
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private Transform muzzle;
+    [SerializeField] private float shootingRange = 100f;
+    [SerializeField] private float damage = 25f;
+    [SerializeField] private float fireRate = 5f;
+
+    private float nextFireTime;
+
+    private void Update()
+    {
+        if (Input.GetMouseButton(0) && Time.time >= nextFireTime)
+        {
+            nextFireTime = Time.time + 1f / fireRate;
+            Shoot();
+        }
+    }
+
+    private void Shoot()
+    {
+        Ray ray = new Ray(
+            playerCamera.transform.position,
+            playerCamera.transform.forward
+        );
+
+        if (Physics.Raycast(ray, out RaycastHit hit, shootingRange))
+        {
+            Debug.Log("Hit: " + hit.collider.name);
+
+            TargetHealth target = hit.collider.GetComponent<TargetHealth>();
+
+            if (target != null)
+            {
+                target.TakeDamage(damage);
+            }
+        }
+
+        Debug.DrawRay(
+            muzzle.position,
+            playerCamera.transform.forward * shootingRange,
+            Color.red,
+            1f
+        );
+    }
+}
