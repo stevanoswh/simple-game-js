@@ -1,0 +1,78 @@
+using UnityEngine;
+
+public class MouseLook : MonoBehaviour
+{
+    [SerializeField] private Transform playerBody;
+    [SerializeField] private float mouseSensitivity = 2f;
+    [SerializeField] private float minimumPitch = -80f;
+    [SerializeField] private float maximumPitch = 80f;
+
+    private float pitch;
+
+    private void Start()
+    {
+        LockCursor();
+    }
+
+    private void Update()
+    {
+        HandleCursor();
+        HandleMouseLook();
+    }
+
+    private void HandleMouseLook()
+    {
+        if (Cursor.lockState != CursorLockMode.Locked)
+        {
+            return;
+        }
+
+        float mouseX =
+            Input.GetAxis("Mouse X") * mouseSensitivity;
+
+        float mouseY =
+            Input.GetAxis("Mouse Y") * mouseSensitivity;
+
+        pitch -= mouseY;
+        pitch = Mathf.Clamp(
+            pitch,
+            minimumPitch,
+            maximumPitch
+        );
+
+        transform.localRotation =
+            Quaternion.Euler(pitch, 0f, 0f);
+
+        playerBody.Rotate(
+            Vector3.up,
+            mouseX,
+            Space.World
+        );
+    }
+
+    private void HandleCursor()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            UnlockCursor();
+        }
+
+        if (Input.GetMouseButtonDown(0) &&
+            Cursor.lockState != CursorLockMode.Locked)
+        {
+            LockCursor();
+        }
+    }
+
+    private void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+}
