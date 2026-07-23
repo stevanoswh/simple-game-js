@@ -1,0 +1,15 @@
+ cv2.imshow("Meme Camera - C: Capture, N: New Tag, Q: Quit", meme)
+    key = cv2.waitKey(1) & 0xFF
+
+    if key == ord("n"):
+        tag = random.choice(BOTTOM_TAGS)
+    elif key == ord("c"):
+        cv2.imwrite(f"meme_{count}.jpg", meme)
+        print(f"Saved meme_{count}.jpg")
+        count += 1
+        tag = random.choice(BOTTOM_TAGS)
+    elif key == ord("q"):
+        break
+
+camera.release()
+cv2.destroyAllWindows()
